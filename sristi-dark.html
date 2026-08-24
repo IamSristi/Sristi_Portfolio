@@ -105,11 +105,7 @@
     display:flex;align-items:center;justify-content:center;font-size:11px;
   }
   html[data-theme="dark"] .theme-toggle .knob{transform:translateX(24px);background:linear-gradient(150deg,var(--lavender),var(--lavender-deep));}
-  .nav-toggle{display:none;width:38px;height:38px;align-items:center;justify-content:center;flex-direction:column;gap:5px;background:none;border:none;cursor:pointer;padding:0;}
-  .nav-toggle-bar{display:block;width:20px;height:1.8px;border-radius:2px;background:var(--text);transition:transform .32s cubic-bezier(.2,.8,.3,1), opacity .2s ease, width .2s ease;}
-  .nav-toggle.open .nav-toggle-bar:nth-child(1){transform:translateY(6.8px) rotate(45deg);}
-  .nav-toggle.open .nav-toggle-bar:nth-child(2){opacity:0;}
-  .nav-toggle.open .nav-toggle-bar:nth-child(3){transform:translateY(-6.8px) rotate(-45deg);}
+  .nav-toggle{display:none;width:38px;height:38px;align-items:center;justify-content:center;}
   .nav-mobile{display:flex;position:fixed;top:0;right:0;bottom:0;width:min(76vw,300px);background:var(--surface);z-index:150;box-shadow:-10px 0 40px rgba(0,0,0,.15);padding:90px 30px;flex-direction:column;gap:22px;transform:translateX(100%);visibility:hidden;pointer-events:none;transition:transform .35s cubic-bezier(.2,.8,.3,1), visibility .35s;}
   .nav-mobile.open{transform:translateX(0);visibility:visible;pointer-events:auto;}
   .nav-mobile a{font-family:'Fraunces',serif;font-size:20px;position:relative;}
@@ -204,19 +200,8 @@
     animation:blobshift 9s ease-in-out infinite;box-shadow:var(--shadow-soft);
   }
   @keyframes blobshift{0%,100%{border-radius:63% 37% 41% 59% / 47% 41% 59% 53%;}50%{border-radius:44% 56% 61% 39% / 55% 43% 57% 45%;}}
-  .blob-photo{
-    position:absolute;
-    left:50%;
-    bottom:-1px;
-    transform:translateX(-50%);
-    width:118%;
-    max-width:none;
-    height:auto;
-    z-index:1;
-    pointer-events:none;
-    filter:drop-shadow(0 14px 22px rgba(10,8,22,.28));
-  }
-  .orbit-star{position:absolute;width:34px;height:34px;z-index:3;animation:float 5s ease-in-out infinite;}
+  .blob-initial{font-family:'Fraunces',serif;font-style:italic;font-weight:500;font-size:120px;color:var(--text);opacity:.85;}
+  .orbit-star{position:absolute;width:34px;height:34px;animation:float 5s ease-in-out infinite;}
   .orbit-star.s1{top:2%;left:6%;animation-delay:0s;}
   .orbit-star.s2{bottom:8%;right:2%;animation-delay:1.2s;}
   .orbit-star.s3{top:44%;right:-4%;animation-delay:2.4s;width:24px;height:24px;}
@@ -226,7 +211,6 @@
     box-shadow:var(--shadow-soft);display:flex;align-items:center;gap:10px;animation:float 6s ease-in-out infinite;animation-delay:.5s;
   }
   .badge-float .bf-icon{width:30px;height:30px;border-radius:50%;background:var(--bg1);display:flex;align-items:center;justify-content:center;font-size:15px;}
-  .badge-float .bf-icon-mark{width:9px;height:9px;border-radius:50%;background:linear-gradient(135deg,var(--gold),var(--blush));box-shadow:0 0 10px color-mix(in srgb,var(--gold) 45%,transparent);}
   .badge-float b{display:block;font-size:12.5px;font-family:'Figtree',sans-serif;}
   .badge-float span{font-size:10.5px;color:var(--text-soft);}
 
@@ -235,149 +219,16 @@
   .flourish .fl-line{width:70px;height:1px;background:linear-gradient(90deg,transparent,var(--line) 50%,transparent);}
 
   /* ===== about ===== */
-  .about-grid{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:clamp(44px,7vw,92px);align-items:start;}
-
-  /* Simple editorial About layout — no floating cards */
-  #about .about-intro-card{
-    position:relative;
-    min-height:390px;
-    padding:8px 0 8px clamp(0px,2vw,24px);
-    display:flex;
-    flex-direction:column;
-    justify-content:center;
-  }
-  #about .about-intro-card::before{
-    content:'';
-    position:absolute;
-    left:0;
-    top:8px;
-    bottom:8px;
-    width:2px;
-    background:linear-gradient(180deg,var(--blush),color-mix(in srgb,var(--lavender) 65%,transparent),transparent);
-    border-radius:4px;
-  }
-  #about .about-intro-card::after{
-    content:'✦';
-    position:absolute;
-    right:2%;
-    top:5%;
-    color:var(--gold);
-    font-size:18px;
-    opacity:.65;
-    animation:float 5s ease-in-out infinite;
-  }
-  #about .intro-kicker{
-    display:flex;
-    align-items:center;
-    gap:10px;
-    width:max-content;
-    margin-left:28px;
-    color:var(--lavender-deep);
-    font-family:'Space Mono',monospace;
-    font-size:10px;
-    letter-spacing:.12em;
-    text-transform:uppercase;
-  }
-  #about .intro-kicker::before{
-    content:'01';
-    color:var(--blush);
-    font-weight:700;
-  }
-  #about .about-quote{
-    margin:22px 0 24px 28px;
-    max-width:560px;
-    font-family:'Fraunces',serif;
-    font-size:clamp(30px,3.5vw,48px);
-    line-height:1.12;
-    letter-spacing:-.035em;
-    color:var(--text);
-  }
-  #about .about-quote .quote-mark{display:none;}
-  #about .intro-foot{
-    display:flex;
-    align-items:center;
-    gap:0;
-    margin-left:28px;
-    color:var(--text-soft);
-    font-family:'Space Mono',monospace;
-    font-size:10px;
-    letter-spacing:.04em;
-    text-transform:uppercase;
-  }
-  #about .intro-foot::before{display:none;}
-  #about .intro-foot::after{
-    content:'→';
-    margin-left:12px;
-    color:var(--blush);
-    font-size:14px;
-  }
-
-  #about .about-facts{
-    display:flex;
-    flex-direction:column;
-    gap:0;
-    border-top:1px solid var(--line);
-  }
-  #about .fact-row{
-    min-height:0;
-    padding:22px 4px;
-    display:grid;
-    grid-template-columns:42px minmax(0,1fr);
-    gap:18px;
-    align-items:start;
-    position:relative;
-    border-bottom:1px solid var(--line);
-    background:transparent;
-    border-radius:0;
-    box-shadow:none;
-    transition:padding .25s ease,background .25s ease;
-  }
-  #about .fact-row::after{display:none;}
-  #about .fact-row:hover{
-    transform:none;
-    padding-left:12px;
-    padding-right:12px;
-    background:color-mix(in srgb,var(--surface) 42%,transparent);
-    border-color:var(--line);
-    box-shadow:none;
-  }
-  #about .fact-icon{
-    width:36px;
-    height:36px;
-    margin:0;
-    border-radius:11px;
-    background:color-mix(in srgb,var(--lavender) 10%,transparent);
-    border:1px solid color-mix(in srgb,var(--lavender) 22%,var(--line));
-    overflow:hidden;
-    box-shadow:none;
-  }
-  #about .fact-icon img{width:100%;height:100%;object-fit:contain;padding:6px;}
-  #about .fact-row h3{
-    margin:1px 0 5px;
-    font-size:15px;
-    line-height:1.35;
-    font-weight:600;
-  }
-  #about .fact-row p{
-    max-width:480px;
-    font-size:13.5px;
-    line-height:1.6;
-  }
-  html[data-theme="dark"] #about .fact-row:hover{
-    background:rgba(255,255,255,.035);
-    border-color:var(--line);
-  }
-  html[data-theme="dark"] #about .fact-icon{
-    background:rgba(199,168,255,.08);
-    border-color:rgba(199,168,255,.18);
-  }
-  @media (max-width:560px){
-    #about .about-intro-card{padding-left:0;}
-    #about .intro-kicker,#about .about-quote,#about .intro-foot{margin-left:22px;}
-    #about .about-quote{font-size:30px;}
-    #about .fact-row{grid-template-columns:38px minmax(0,1fr);gap:14px;padding:19px 0;}
-    #about .fact-row:hover{padding-left:7px;padding-right:7px;}
-  }
+  .about-grid{display:grid;grid-template-columns:.85fr 1.15fr;gap:60px;align-items:center;}
+  .page-card{background:var(--surface);border-radius:28px;padding:36px;position:relative;box-shadow:var(--shadow-soft);border:1px solid var(--line);}
+  .page-card::before{content:'';position:absolute;top:22px;left:-10px;width:20px;height:calc(100% - 44px);background:repeating-linear-gradient(0deg,var(--blush) 0 3px,transparent 3px 14px);border-radius:10px;opacity:.55;}
+  .page-card .corner-spark{position:absolute;top:14px;right:16px;width:16px;height:16px;color:var(--gold);opacity:.7;animation:twinkle 3s ease-in-out infinite;}
+  .page-card p.pq{font-family:'Fraunces',serif;font-style:italic;font-size:19px;line-height:1.5;color:var(--text);}
+  .about-facts{display:flex;flex-direction:column;gap:22px;}
+  .fact-row{display:flex;gap:18px;align-items:flex-start;}
+  .fact-icon{width:46px;height:46px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:19px;background:linear-gradient(150deg,var(--bg1),var(--bg2));}
+  .fact-row h3{font-size:16px;margin-bottom:4px;font-weight:600;font-family:'Figtree',sans-serif;}
+  .fact-row p{color:var(--text-soft);font-size:14.5px;}
 
   /* ===== galaxy skills ===== */
   .galaxy-panel{
@@ -456,7 +307,7 @@
   .proj-shot.p2{background:linear-gradient(150deg,var(--bg2),var(--bg3));}
   .proj-shot.p3{background:linear-gradient(150deg,var(--peach),var(--blush));}
   .proj-shot::after{content:'';position:absolute;inset:0;background-image:radial-gradient(circle at 20% 20%, rgba(255,255,255,.35), transparent 45%);}
-  .proj-shot .shot-image{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:2;}
+  .proj-shot .shot-emoji{font-size:34px;position:relative;z-index:1;}
   .proj-shot .shot-hint{font-family:'Space Mono',monospace;font-size:10.5px;color:var(--text-soft);position:relative;z-index:1;text-align:center;padding:0 18px;opacity:.75;}
   .proj-shot img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:2;}
   .proj-pill{position:absolute;top:12px;left:12px;z-index:3;font-family:'Space Mono',monospace;font-size:10px;padding:5px 11px;border-radius:100px;background:color-mix(in srgb, var(--surface) 85%, transparent);color:var(--text);}
@@ -554,7 +405,6 @@
     box-shadow:0 14px 28px -20px var(--shadow);
     transition:transform .4s cubic-bezier(.2,.8,.2,1),filter .3s ease;
   }
-  .achievement-icon img{width:100%;height:100%;object-fit:contain;padding:8px;border-radius:inherit;}
   .achievement-card:hover .achievement-icon{
     transform:translateY(-4px) rotate(7deg) scale(1.08);
     filter:saturate(1.12);
@@ -649,17 +499,34 @@
     0%,100%{transform:scale(.9) rotate(0deg);opacity:.45}
     50%{transform:scale(1.18) rotate(12deg);opacity:.9}
   }
+  @media (max-width:920px){
+    .achievement-grid{grid-template-columns:1fr 1fr;}
+    .achievement-card:last-child{grid-column:1/-1;}
+  }
+  @media (max-width:640px){
+    .achievements-section{padding-top:42px !important;padding-bottom:46px !important;}
+    .achievement-heading::after{display:none;}
+    .achievement-grid{grid-template-columns:1fr;gap:14px;margin-top:24px;}
+    .achievement-card,
+    .achievement-card:last-child{grid-column:auto;min-height:330px;padding:22px 20px;}
+    .achievement-content h3{font-size:23px;}
+  }
+  @media (prefers-reduced-motion:reduce){
+    .achievement-card,
+    .achievement-icon{transition:none}
+    .achievement-star,.achievement-spark{animation:none}
+  }
+
   /* ===== contact ===== */
   .contact-panel{background:linear-gradient(160deg,var(--bg1),var(--bg3));border-radius:34px;padding:70px clamp(24px,5vw,72px);text-align:center;position:relative;overflow:hidden;border:1px solid var(--line);}
-  .contact-moon-wrap{position:relative;width:170px;height:170px;margin:0 auto 26px;}
-  .contact-halo{position:absolute;display:block;width:206px;height:206px;top:-18px;left:-18px;border-radius:50%;pointer-events:none;border:1px solid rgba(255,255,255,.16);animation:haloPulse 6s ease-in-out infinite;}
-  .contact-moon{position:relative;width:170px;height:170px;border-radius:50%;
+  .contact-moon-wrap{position:relative;width:96px;height:96px;margin:0 auto 26px;}
+  .contact-halo{position:absolute;display:block;width:132px;height:132px;top:-18px;left:-18px;border-radius:50%;pointer-events:none;border:1px solid rgba(255,255,255,.16);animation:haloPulse 6s ease-in-out infinite;}
+  .contact-moon{position:relative;width:96px;height:96px;border-radius:50%;
     background:radial-gradient(circle at 30% 26%,#fff 0%,#FCEFC7 16%,var(--gold) 52%,#C99A4A 85%,#9c7638 100%);
     box-shadow:0 0 60px var(--glow), inset -14px -10px 26px rgba(60,35,20,.35), inset 8px 8px 18px rgba(255,255,255,.35);
     animation:moonDrift 8s ease-in-out infinite;}
   .contact-moon .crater{position:absolute;border-radius:50%;background:radial-gradient(circle at 35% 30%, rgba(120,85,35,.4), rgba(90,60,25,.2) 60%, transparent 75%);}
   .contact-moon .crater.sm{background:radial-gradient(circle at 35% 30%, rgba(120,85,35,.3), transparent 70%);}
-  .contact-moon .contact-end-gif{width:100%;height:100%;object-fit:contain;display:block;}
   .contact-orbit{position:absolute;animation:float 5s ease-in-out infinite;}
   .contact-panel p{color:var(--text-soft);max-width:440px;margin:14px auto 32px;font-size:15.5px;}
   .contact-cta{display:flex;justify-content:center;gap:16px;flex-wrap:wrap;}
@@ -680,20 +547,14 @@
 
   .firefly{position:fixed;width:5px;height:5px;border-radius:50%;background:var(--gold);pointer-events:none;z-index:2;opacity:0;filter:blur(0.3px);box-shadow:0 0 8px var(--glow);}
 
-  /* ===== consolidated responsive breakpoints ===== */
   @media (max-width:920px){
-    #about .about-grid,
-    .about-grid{grid-template-columns:1fr;gap:42px;}
-    #about .about-intro-card{min-height:0;padding:8px 0 24px;}
-    #about .about-quote{max-width:720px;font-size:clamp(30px,5vw,44px);}
-    .achievement-grid{grid-template-columns:1fr 1fr;}
-    .achievement-card:last-child{grid-column:1/-1;}
     .hero-grid{grid-template-columns:1fr;}
     .hero-grid .portrait-wrap{order:-1;margin-bottom:10px;}
+    .about-grid{grid-template-columns:1fr;}
     .proj-grid{grid-template-columns:1fr;}
     .nav-links{display:none;}
     .nav-toggle{display:flex;}
-    .constellation{height:420px;}
+    .constellation{height:500px;}
     .spell-card{flex-direction:column;text-align:center;}
   }
   @media (max-width:640px){
@@ -705,61 +566,15 @@
     .hero-cta{gap:10px;margin-bottom:32px;}
     .hero-tags{gap:7px;}
     .blob{width:min(88vw,360px);}
-    .blob-photo{width:120%;}
     .badge-float{left:0;bottom:-8%;}
-    .achievements-section{padding-top:42px !important;padding-bottom:46px !important;}
-    .achievement-heading::after{display:none;}
-    .achievement-grid{grid-template-columns:1fr;gap:14px;margin-top:24px;}
-    .achievement-card,
-    .achievement-card:last-child{grid-column:auto;min-height:330px;padding:22px 20px;}
-    .achievement-content h3{font-size:23px;}
-    #skills{padding-top:42px;padding-bottom:46px;}
-    #skills .wrap{padding-left:14px;padding-right:14px;}
-    #skills .section-lede{font-size:13px;line-height:1.55;margin-top:8px;max-width:100%;}
-    .galaxy-panel{padding:30px 12px 24px;border-radius:24px;}
-    .galaxy-panel h2{font-size:clamp(28px,8vw,38px);}
-    .galaxy-panel .eyebrow{font-size:10px;gap:6px;}
-    .constellation{height:380px;margin-top:18px;overflow:hidden;}
-    .const-label{font-size:8px;margin-top:6px;}
-    .const-node.label-above .const-label{margin-bottom:6px;}
-    .const-legend{gap:6px;margin-top:18px;}
-    .legend-item{font-size:8.5px;gap:5px;padding:4px 7px;}
-    .legend-dot{width:7px;height:7px;}
-    .spell-card{margin-top:16px;padding:16px 14px;gap:12px;border-radius:16px;}
-    .spell-ring{width:52px;height:52px;}
-    .spell-ring span{font-size:10px;}
-    .spell-title{font-size:18px;}
-    .spell-card p{font-size:12px;}
+    .galaxy-panel{padding:40px 16px;border-radius:26px;}
+    .constellation{height:450px;margin-top:24px;}
+    .const-legend{gap:8px;margin-top:24px;}
+    .legend-item{font-size:10px;padding:5px 9px;}
     .proj-grid{gap:18px;margin-top:34px;}
     .page-card{padding:28px;}
     .contact-panel{padding:48px 22px;}
     section::after{display:none;}
-  }
-  @media (max-width:420px){
-    #skills .wrap{padding-left:10px;padding-right:10px;}
-    .galaxy-panel{padding:24px 9px 20px;border-radius:20px;}
-    .galaxy-panel h2{font-size:27px;}
-    .galaxy-panel .section-lede{font-size:12px;}
-    .constellation{height:330px;margin-top:14px;}
-    .const-label{font-size:7px;}
-    .const-legend{gap:5px;margin-top:14px;}
-    .legend-item{font-size:7.5px;padding:3px 6px;}
-    .legend-dot{width:6px;height:6px;}
-    .spell-card{padding:12px 10px;gap:10px;}
-    .spell-ring{width:44px;height:44px;}
-    .spell-ring span{font-size:9px;}
-    .spell-title{font-size:16px;}
-    .spell-card p{font-size:11px;}
-  }
-  @media (max-width:360px){
-    .galaxy-panel{padding-left:7px;padding-right:7px;}
-    .constellation{height:300px;}
-    .const-label{font-size:6.5px;}
-    .legend-item{font-size:7px;padding:3px 5px;}
-    .spell-card{padding:10px 8px;}
-    .spell-ring{width:40px;height:40px;}
-    .spell-title{font-size:15px;}
-    .spell-card p{font-size:10.5px;}
   }
 
   @media (prefers-reduced-motion:reduce){
@@ -767,9 +582,6 @@
     .reveal{opacity:1;transform:none;}
     body.wand-active{cursor:auto;}
     #wandCursor{display:none;}
-    .achievement-card,
-    .achievement-icon{transition:none}
-    .achievement-star,.achievement-spark{animation:none}
   }
   @media (pointer:coarse){
     #wandCursor{display:none;}
@@ -801,10 +613,8 @@
       <button class="theme-toggle" id="themeToggle" aria-label="Switch between light and dark theme">
         <span class="knob">✦</span>
       </button>
-      <button class="nav-toggle" id="navToggle" aria-label="Open menu" aria-expanded="false">
-        <span class="nav-toggle-bar"></span>
-        <span class="nav-toggle-bar"></span>
-        <span class="nav-toggle-bar"></span>
+      <button class="nav-toggle" id="navToggle" aria-label="Open menu">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
       </button>
     </div>
   </div>
@@ -837,30 +647,30 @@
     <div class="hero-grid">
       <div>
         <div class="hero-eyebrow"><span class="dot"></span>final-year ECE student, building quietly</div>
-        <h1 class="hero-title">Hi, I'm Sristi!<span class="line2">I turn ideas into <span class="script">reality</span></span></h1>
+        <h1 class="hero-title">Hi, I'm Sristi.<span class="line2">I turn ideas into <span class="script">things</span></span> you can touch.</h1>
         <p class="hero-lede">Electronics &amp; Communication Engineering, with a soft spot for web development and GenAI. I like the part where a half-formed idea slowly becomes something that actually works.</p>
         <div class="hero-cta">
           <a class="btn btn-solid" href="#projects">See what I've made</a>
           <a class="btn btn-outline" href="https://github.com/IamSristi" target="_blank" rel="noopener">GitHub ↗</a>
         </div>
         <div class="hero-tags">
-          <span class="soft-tag">C++</span>
           <span class="soft-tag">Java</span>
           <span class="soft-tag">Python</span>
           <span class="soft-tag">Web dev</span>
-          <span class="soft-tag">UI/UX</span>
+          <span class="soft-tag">GenAI</span>
+          <span class="soft-tag">C++</span>
         </div>
-        <div class="wish-hint" id="wishHint"></div>
+        <div class="wish-hint" id="wishHint">✦ tap the night sky to make a wish</div>
       </div>
       <div class="portrait-wrap">
         <div class="blob">
-          <img class="blob-photo" src="my.png" alt="Sristi working on a laptop">
+          <span class="blob-initial">S</span>
           <svg class="orbit-star s1" viewBox="0 0 24 24" fill="none"><path d="M12 2l1.8 6.2L20 10l-6.2 1.8L12 18l-1.8-6.2L4 10l6.2-1.8L12 2z" fill="var(--gold)"/></svg>
           <svg class="orbit-star s2" viewBox="0 0 24 24" fill="none"><path d="M12 2l1.8 6.2L20 10l-6.2 1.8L12 18l-1.8-6.2L4 10l6.2-1.8L12 2z" fill="var(--blush)"/></svg>
           <svg class="orbit-star s3" viewBox="0 0 24 24" fill="none"><path d="M12 2l1.8 6.2L20 10l-6.2 1.8L12 18l-1.8-6.2L4 10l6.2-1.8L12 2z" fill="var(--lavender)"/></svg>
         </div>
         <div class="badge-float">
-          <div class="bf-icon" aria-hidden="true"><span class="bf-icon-mark"></span></div>
+          <div class="bf-icon">🌱</div>
           <div><b>Always learning</b><span>currently: GenAI</span></div>
         </div>
       </div>
@@ -878,16 +688,15 @@
       <p class="section-lede">The short version of who I am and how I like to work.</p>
     </div>
     <div class="about-grid" style="margin-top:48px;">
-      <div class="reveal about-intro-card">
-        <span class="intro-kicker">how I think</span>
-        <p class="about-quote">I like turning curiosity into things that actually work.</p>
-        <div class="intro-foot">learn · build · improve</div>
+      <div class="reveal page-card">
+        <svg class="corner-spark" viewBox="0 0 24 24" fill="none"><path d="M12 2l1.8 6.2L20 10l-6.2 1.8L12 18l-1.8-6.2L4 10l6.2-1.8L12 2z" fill="currentColor"/></svg>
+        <p class="pq">"I enjoy turning ideas into practical, meaningful projects — and I'd rather learn by building than by watching from the sidelines."</p>
       </div>
       <div class="reveal about-facts">
-        <div class="fact-row"><div class="fact-icon"><img src="assest1.svg" alt=""></div><div><h3>Final-year ECE student</h3><p>Electronics &amp; Communication Engineering, wrapping up my degree while building on the side.</p></div></div>
-        <div class="fact-row"><div class="fact-icon"><img src="assest2.svg" alt=""></div><div><h3>Always learning something new</h3><p>Currently deep in Java, C++, Python, web development, and generative AI.</p></div></div>
-        <div class="fact-row"><div class="fact-icon"><img src="assest3.svg" alt=""></div><div><h3>Comfortable across the stack</h3><p>Git, GitHub, Figma, HTML, CSS, and JavaScript — from sketch to shipped.</p></div></div>
-        <div class="fact-row"><div class="fact-icon"><img src="assest4.png" alt=""></div><div><h3>Better with people</h3><p>I value teamwork, clear communication, and solving problems together over solving them alone.</p></div></div>
+        <div class="fact-row"><div class="fact-icon">🎓</div><div><h3>Final-year ECE student</h3><p>Electronics &amp; Communication Engineering, wrapping up my degree while building on the side.</p></div></div>
+        <div class="fact-row"><div class="fact-icon">🧭</div><div><h3>Always learning something new</h3><p>Currently deep in Java, C++, Python, web development, and generative AI.</p></div></div>
+        <div class="fact-row"><div class="fact-icon">🎨</div><div><h3>Comfortable across the stack</h3><p>Git, GitHub, Figma, HTML, CSS, and JavaScript — from sketch to shipped.</p></div></div>
+        <div class="fact-row"><div class="fact-icon">🤝</div><div><h3>Better with people</h3><p>I value teamwork, clear communication, and solving problems together over solving them alone.</p></div></div>
       </div>
     </div>
   </div>
@@ -959,12 +768,14 @@
         <svg class="corner-spark" viewBox="0 0 24 24" fill="none"><path d="M12 2l1.8 6.2L20 10l-6.2 1.8L12 18l-1.8-6.2L4 10l6.2-1.8L12 2z" fill="currentColor"/></svg>
         <div class="proj-shot">
           <span class="proj-pill">real project</span>
-          <img class="shot-image" src="project1.png" alt="AgroSmart project screenshot">
+          <!-- Replace this shot with: <img src="agrosmart.png" alt="AgroSmart dashboard screenshot"> -->
+          <span class="shot-emoji">🌾</span>
+          <span class="shot-hint">drop your AgroSmart screenshot here</span>
         </div>
         <div class="proj-body">
           <div class="proj-title">AgroSmart</div>
           <p class="proj-desc">An IoT-based smart agriculture platform — real-time monitoring, automated irrigation, AI leaf-disease detection, and a farming assistant.</p>
-          <div class="proj-chips"><span class="chip">IoT</span><span class="chip">AI/ML</span><span class="chip">Web dev</span></div>
+          <div class="proj-chips"><span class="chip">IoT</span><span class="chip">AI/ML</span><span class="chip">HTML</span></div>
           <div class="proj-actions"><a class="btn btn-solid" href="https://github.com/IamSristi/AgroSmart" target="_blank" rel="noopener">View code ↗</a></div>
         </div>
       </div>
@@ -973,7 +784,9 @@
         <svg class="corner-spark" viewBox="0 0 24 24" fill="none"><path d="M12 2l1.8 6.2L20 10l-6.2 1.8L12 18l-1.8-6.2L4 10l6.2-1.8L12 2z" fill="currentColor"/></svg>
         <div class="proj-shot p2">
           <span class="proj-pill">real project</span>
-          <img class="shot-image" src="project2.png" alt="Pokemon Center project screenshot">
+          <!-- Replace this shot with: <img src="pokemon-center.png" alt="Pokemon Center storefront screenshot"> -->
+          <span class="shot-emoji">🛍️</span>
+          <span class="shot-hint">drop your Pokemon-Center screenshot here</span>
         </div>
         <div class="proj-body">
           <div class="proj-title">Pokemon Center</div>
@@ -985,11 +798,12 @@
 
       <div class="proj-card wish">
         <div class="proj-shot p3">
-          <img class="shot-image" src="project3.png" alt="Next project screenshot">
+          <span class="shot-emoji">✨</span>
+          <span class="shot-hint" style="color:var(--text);opacity:.8;">this slot is open — drop in your next project's title, screenshot and links</span>
         </div>
         <div class="proj-body">
           <div class="proj-title">Something new is coming</div>
-          <p class="proj-desc">Reserved for whatever's next — a hackathon build, or a personal project.</p>
+          <p class="proj-desc">Reserved for whatever's next — a hackathon build, a GenAI experiment, or a final-year project.</p>
           <div class="proj-chips"><span class="chip">in progress</span></div>
           <div class="proj-actions"><a class="btn btn-outline" href="https://github.com/IamSristi" target="_blank" rel="noopener">Follow along ↗</a></div>
         </div>
@@ -1010,7 +824,7 @@
       <article class="achievement-card achievement-gold">
         <div class="achievement-orbit" aria-hidden="true"></div>
         <div class="achievement-star" aria-hidden="true">✦</div>
-        <div class="achievement-icon"><img src="win1.png" alt=""></div>
+        <div class="achievement-icon">🏆</div>
         <div class="achievement-year">2026</div>
         <div class="achievement-content">
           <span class="achievement-kicker">First Runner-Up</span>
@@ -1025,8 +839,8 @@
       <article class="achievement-card achievement-lavender">
         <div class="achievement-orbit" aria-hidden="true"></div>
         <div class="achievement-star" aria-hidden="true">✦</div>
-        <div class="achievement-icon"><img src="win2.png" alt=""></div>
-        <div class="achievement-year">2026</div>
+        <div class="achievement-icon">🚀</div>
+        <div class="achievement-year">SIH</div>
         <div class="achievement-content">
           <span class="achievement-kicker">Top 50</span>
           <h3>SIH Internal Hackathon</h3>
@@ -1040,13 +854,13 @@
       <article class="achievement-card achievement-blush">
         <div class="achievement-orbit" aria-hidden="true"></div>
         <div class="achievement-star" aria-hidden="true">✦</div>
-        <div class="achievement-icon"><img src="win3.png" alt=""></div>
-        <div class="achievement-year">2024</div>
+        <div class="achievement-icon">🥇</div>
+        <div class="achievement-year">6th</div>
         <div class="achievement-content">
           <span class="achievement-kicker">6th Position</span>
           <h3>EdgeX</h3>
           <p class="achievement-event">by Azion and Sourcify</p>
-          <p>Secured 6th position at EdgeX, showcasing frontend development skills..</p>
+          <p>Secured 6th position at EdgeX, showcasing practical problem-solving and the ability to build under a competitive challenge.</p>
         </div>
         <div class="achievement-spark spark-a">✧</div>
         <div class="achievement-spark spark-b">·</div>
@@ -1062,7 +876,12 @@
         <div class="contact-halo"></div>
         <svg class="contact-orbit" style="top:-10px;left:-14px;width:16px;height:16px;" viewBox="0 0 24 24" fill="none"><path d="M12 2l1.8 6.2L20 10l-6.2 1.8L12 18l-1.8-6.2L4 10l6.2-1.8L12 2z" fill="var(--blush)"/></svg>
         <svg class="contact-orbit" style="bottom:-6px;right:-16px;width:12px;height:12px;animation-delay:1.4s;" viewBox="0 0 24 24" fill="none"><path d="M12 2l1.8 6.2L20 10l-6.2 1.8L12 18l-1.8-6.2L4 10l6.2-1.8L12 2z" fill="var(--lavender)"/></svg>
-        <div class="contact-moon"><img src="end.gif" alt="" class="contact-end-gif"></div>
+        <div class="contact-moon">
+          <div class="crater" style="width:18px;height:18px;top:14px;left:18px;"></div>
+          <div class="crater sm" style="width:9px;height:9px;top:40px;left:56px;"></div>
+          <div class="crater" style="width:12px;height:12px;top:62px;left:24px;"></div>
+          <div class="crater sm" style="width:7px;height:7px;top:26px;left:68px;"></div>
+        </div>
       </div>
       <span class="eyebrow" style="justify-content:center;">✎ say hi</span>
       <h2>Let's build something together</h2>
@@ -1102,7 +921,7 @@
   function currentTheme(){ return root.getAttribute('data-theme') === 'dark' ? 'dark' : 'light'; }
   themeToggle.addEventListener('click', function(e){
     if(!reducedMotion) burst(e.clientX, e.clientY, 12);
-    window.location.href = currentTheme() === 'dark' ? 'sristi-light.html' : 'sristi-dark.html';
+    window.location.href = currentTheme() === 'dark' ? 'index.html' : 'sristi-dark.html';
   });
 
   /* ---------- wand cursor + sparkle trail ---------- */
@@ -1162,20 +981,8 @@
   var navToggle = document.getElementById('navToggle');
   var navMobile = document.getElementById('navMobile');
   var navScrim = document.getElementById('navScrim');
-  function closeNav(){
-    navMobile.classList.remove('open');
-    navScrim.classList.remove('show');
-    navToggle.classList.remove('open');
-    navToggle.setAttribute('aria-expanded','false');
-    navToggle.setAttribute('aria-label','Open menu');
-  }
-  navToggle.addEventListener('click', function(){
-    var isOpen = navMobile.classList.toggle('open');
-    navScrim.classList.toggle('show', isOpen);
-    navToggle.classList.toggle('open', isOpen);
-    navToggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
-    navToggle.setAttribute('aria-label', isOpen ? 'Close menu' : 'Open menu');
-  });
+  function closeNav(){ navMobile.classList.remove('open'); navScrim.classList.remove('show'); }
+  navToggle.addEventListener('click', function(){ navMobile.classList.add('open'); navScrim.classList.add('show'); });
   navScrim.addEventListener('click', closeNav);
 
   /* ---------- explicit smooth-scroll for every in-page anchor link ---------- */
@@ -1259,6 +1066,15 @@
     t.style.top = (Math.random()*70)+'%'; t.style.left = (Math.random()*100)+'%';
     t.style.animationDelay = (Math.random()*3)+'s';
     skyStage.appendChild(t);
+  }
+
+  if(pointerFine && !reducedMotion){
+    document.getElementById('home').addEventListener('mousemove', function(e){
+      var r = this.getBoundingClientRect();
+      var mx = (e.clientX - r.left)/r.width - 0.5;
+      var my = (e.clientY - r.top)/r.height - 0.5;
+      skyStage.style.transform = 'translate('+(mx*10)+'px,'+(my*8)+'px)';
+    });
   }
 
   /* ---------- galaxy skill map ---------- */
