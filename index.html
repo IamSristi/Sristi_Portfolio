@@ -387,6 +387,15 @@
     border-radius:32px;padding:56px clamp(20px,4vw,48px);position:relative;overflow:hidden;
     box-shadow:0 40px 90px -30px rgba(13,8,32,.6);
   }
+  @media (max-width:640px){
+    html[data-theme="dark"] .galaxy-panel{
+      background:radial-gradient(ellipse at 30% 25%,rgba(44,31,87,.92) 0%,rgba(23,15,48,.7) 48%,rgba(13,8,33,0) 78%);
+      box-shadow:none;
+    }
+    html:not([data-theme="dark"]) .galaxy-panel{
+      box-shadow:0 24px 60px -24px rgba(58,46,92,.4);
+    }
+  }
   .galaxy-panel .eyebrow, .galaxy-panel h2{color:#EDE6FA;}
   .galaxy-panel .section-lede{color:#B6ADD1;}
   .galaxy-swirl{position:absolute;top:50%;left:50%;width:900px;height:900px;margin:-450px 0 0 -450px;
@@ -433,7 +442,7 @@
   }
   .spell-card.show{opacity:1;transform:translateY(0);}
   .spell-ring{position:relative;width:64px;height:64px;flex-shrink:0;}
-  .spell-ring svg{transform:rotate(-90deg);}
+  .spell-ring svg{display:block;width:100%;height:100%;transform:rotate(-90deg);}
   .spell-ring span{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-family:'Space Mono',monospace;font-size:12px;color:#fff;}
   .spell-title{font-family:'Fraunces',serif;font-size:19px;color:#fff;margin-bottom:3px;}
   .spell-note{color:#C7BEE0;font-size:13.5px;}
@@ -903,16 +912,16 @@
     </div>
 
     <div class="galaxy-panel reveal" style="margin-top:44px;">
-      <div class="galaxy-swirl"></div>
-      <div class="galaxy-nebula"></div>
-      <div class="galaxy-ring r1"></div>
-      <div class="galaxy-ring r2"></div>
-      <div class="galaxy-ring r3"></div>
-      <div class="galaxy-dust-lane"></div>
       <div id="galaxyDust"></div>
       <div id="galaxyShots"></div>
 
       <div class="constellation" id="constellation">
+        <div class="galaxy-swirl"></div>
+        <div class="galaxy-nebula"></div>
+        <div class="galaxy-ring r1"></div>
+        <div class="galaxy-ring r2"></div>
+        <div class="galaxy-ring r3"></div>
+        <div class="galaxy-dust-lane"></div>
         <div class="galaxy-core" id="galaxyCore"></div>
         <div class="const-tilt" id="constTilt">
           <div class="const-spin" id="constSpin">
@@ -1293,7 +1302,15 @@
     var W = constWrap.clientWidth, H = constWrap.clientHeight;
     var cx = W/2, cy = H/2;
     var squish = 0.72;
-    var padX = 44, padY = 44;
+    // Reserve enough room for the dot itself plus its label so nothing gets
+    // clipped by the box's overflow:hidden on small screens. Fixed pixel
+    // padding alone shrinks to a smaller fraction of the box as the box
+    // gets smaller, so we scale it up (with a sensible floor/ceiling) and
+    // also shrink the dots/labels themselves on small containers.
+    var minDim = Math.min(W, H);
+    var sizeScale = Math.max(0.5, Math.min(1, minDim/380));
+    var padX = Math.max(44, W*0.16);
+    var padY = Math.max(44, H*0.18);
     var byCat = [[],[],[]];
     skills.forEach(function(s){ byCat[s.cat].push(s); });
     var positions = [];
@@ -1303,15 +1320,23 @@
         var t = (i+1)/(arr.length+0.6);
         var twist = t*2.15;
         var angle = armAngle + twist;
+        // Small manual nudges to relieve two tight pairs (Git/GitHub, Java/C++)
+        // without touching the overall arm layout.
+        var angleNudge = {'Git':-0.2,'GitHub':0.05,'Java':-0.09,'C++':0.11}[s.name] || 0;
+        angle += angleNudge;
         var cosA = Math.cos(angle), sinA = Math.sin(angle);
         var maxRx = (W/2 - padX) / Math.max(Math.abs(cosA), 0.0001);
         var maxRy = (H/2 - padY) / Math.max(Math.abs(sinA*squish), 0.0001);
         var maxRforAngle = Math.min(maxRx, maxRy);
-        var radius = 60 + t*(maxRforAngle-60) + (i%2)*(maxRforAngle*0.05);
+        var minRadius = Math.min(60, maxRforAngle*0.6) * sizeScale;
+        var radius = minRadius + t*(maxRforAngle-minRadius) + (i%2)*(maxRforAngle*0.05);
+        var radiusNudge = {'Git':-0.09,'GitHub':0.02,'Java':-0.04,'C++':0.06}[s.name] || 0;
+        radius += radiusNudge*maxRforAngle;
         radius = Math.min(radius, maxRforAngle);
+        radius = Math.max(radius, 0);
         var x = cx + cosA*radius;
         var y = cy + sinA*radius*squish;
-        positions.push({x:x,y:y,s:s,labelBelow:(i%2===0)});
+        positions.push({x:x,y:y,s:s,labelBelow:(i%2===0),sizeScale:sizeScale});
       });
     });
     return {positions:positions, cx:cx, cy:cy};
@@ -1340,7 +1365,7 @@
 
     nodeLayer.innerHTML = '';
     positions.forEach(function(p, idx){
-      var size = 12 + p.s.level*20;
+      var size = (12 + p.s.level*20) * (p.sizeScale || 1);
       var node = document.createElement('button');
       node.type = 'button';
       node.className = 'const-node'+(p.labelBelow ? '' : ' label-above');
@@ -1386,6 +1411,12 @@
 
   drawGalaxy();
   window.addEventListener('resize', function(){ drawGalaxy(); });
+  window.addEventListener('orientationchange', function(){ setTimeout(drawGalaxy, 50); });
+  window.addEventListener('load', drawGalaxy);
+  if(document.fonts && document.fonts.ready){ document.fonts.ready.then(drawGalaxy); }
+  if(window.ResizeObserver){
+    new ResizeObserver(function(){ drawGalaxy(); }).observe(constWrap);
+  }
 
   /* ---------- galaxy stays still ---------- */
   /* ---------- legend filter ---------- */
